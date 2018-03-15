@@ -8,7 +8,7 @@ const redis = require('redis');
 const util = require('util');
 
 const redisOptions = {
-  url: 'redis://127.0.0.1:6379/0',
+  url: process.env.REDIS_URL || 'redis://127.0.0.1:6379/0',
 };
 
 const client = redis.createClient(redisOptions);
@@ -16,7 +16,7 @@ const client = redis.createClient(redisOptions);
 const asyncGet = util.promisify(client.get).bind(client);
 const asyncSet = util.promisify(client.set).bind(client);
 
-const cacheTtL = 7200;
+const cacheTtL = process.env.REDIS_EXPIRE || 7200;
 const allExams = 'https://ugla.hi.is/Proftafla/View/ajax.php?sid=2027&a=getProfSvids&proftaflaID=37&svidID=0&notaVinnuToflu=0';
 
 /**
