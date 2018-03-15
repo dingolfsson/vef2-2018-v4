@@ -19,14 +19,11 @@ const asyncSet = util.promisify(client.set).bind(client);
 const cacheTtL = 7200;
 const allExams = 'https://ugla.hi.is/Proftafla/View/ajax.php?sid=2027&a=getProfSvids&proftaflaID=37&svidID=0&notaVinnuToflu=0';
 
-/* todo require og stilla dót */
-
 /**
-*  sjér til þess að við þurfum ekki að opna HTTP og sækja gögnin ef það er til í
-*  cache, ef það er ekki til þá sækja og setja í cache
-*
-*
-*/
+ * Stofnar cache fyrir skod ef tad er ekki til
+ * skilar annars cache.
+ * @returns {Promise} sem inniheldur json gogn.
+ */
 async function get(url, cacheKey) {
   const cached = await asyncGet(cacheKey);
 
@@ -38,7 +35,7 @@ async function get(url, cacheKey) {
   const text = await response.json();
 
   await asyncSet(cacheKey, JSON.stringify(text), 'EX', cacheTtL);
-  //client.quit();
+  // client.quit();
   return text;
 }
 
@@ -121,7 +118,7 @@ async function getTests(slug) {
     });
     tests.push(eachTest);
   });
-  //client.quit();
+  // client.quit();
   return tests;
 }
 
