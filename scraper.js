@@ -91,28 +91,28 @@ async function getTests(slug) {
   const $ = cheerio.load(result.html);
 
   const test = $('.table-bordered.table-hover.table-striped.table tbody');
-  const heading = $('div.box').find('h3');
+  const data = $('div.box').find('h3');
 
   const tests = [];
   const eachTest = [];
-  heading.each((i, e) => {
+  data.each((i, e) => {
     const header = $(e).text();
     tests.push({ header });
     test.each((j, el) => {
       const td = $(el).find('tr');
-      td.each((k, ele) => {
-        const number = $(ele).find('td:nth-child(1)').text();
-        const name = $(ele).find('td:nth-child(2)').text();
-        const type = $(ele).find('td:nth-child(3)').text();
-        const students = parseInt($(ele).find('tr > td:nth-child(4)').text(), 10);
-        const time = $(ele).find('tr > td:nth-child(5)').text();
+      td.each((k, element) => {
+        const number = $(element).find('td:nth-child(1)').text();
+        const name = $(element).find('td:nth-child(2)').text();
+        const type = $(element).find('td:nth-child(3)').text();
+        const students = parseInt($(element).find('tr > td:nth-child(4)').text(), 10);
+        const date = $(element).find('tr > td:nth-child(5)').text();
 
         eachTest.push({
           number,
           name,
           type,
           students,
-          time,
+          date,
         });
       });
     });
@@ -143,10 +143,10 @@ async function getStats() {
   const test = $('.table-bordered.table-hover.table-striped.table tbody');
   const stats = [];
 
-  test.each((j, el) => {
-    const td = $(el).find('tr');
-    td.each((i, ele) => {
-      const students = $(ele).find('tr > td:nth-child(4)').text();
+  test.each((j, e) => {
+    const td = $(e).find('tr');
+    td.each((i, element) => {
+      const students = $(element).find('tr > td:nth-child(4)').text();
 
       stats.push({
         students: Number(students),
